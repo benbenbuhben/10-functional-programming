@@ -24,7 +24,25 @@ var app = app || {};
     console.log(articleData);
     articleData.sort((a, b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)));
     //REPLACES OLD FOR EACH METHOD
-    articleData.map(instance => Article.all.push(new Article(instance)));
+    // articleData.map(instance => Article.all.push(new Article(instance)));
+    Article.all = articleData.map(instance => new Article(instance));
+    var totalWords = Article.all.map(article => article.body.split(' ').length).reduce((x, y) => x + y);
+    Article.allWords=totalWords;
+    console.log(Article.allWords);
+
+    
+    var uniqueAuthors = Article.all.map(article => article.author).reduce((x, y) => {
+     
+      if (!x.includes(y)) {
+        x.push(y)
+      }
+      return x;
+    }, []);
+    Article.allAuthors=uniqueAuthors;
+    console.log(Article.allAuthors);
+    
+    
+
 
     /* OLD forEach():
     articleData.forEach(articleObject => Article.all.push(new Article(articleObject)));
